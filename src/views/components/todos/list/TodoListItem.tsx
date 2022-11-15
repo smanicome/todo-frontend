@@ -24,18 +24,25 @@ export function TodoListItem(props: TodoListItemProps) {
         props.onUpdate(updatedTodo);
     }
 
+    const handleKey = (key: string) => {
+        if(key === "Escape") {
+            setTitle(props.todo.title);
+            setEditingTitle(false);
+        }
+    }
+
     return (
-        <div>
-            <input type={"checkbox"} checked={props.todo.completed} onChange={onCompletionEdited}/>
+        <div className={"todo-list-item"}>
+            <input className={"todo-list-item-checkbox"} type={"checkbox"} checked={props.todo.completed} onChange={onCompletionEdited}/>
             {
                 editingTitle
-                    ? <form style={{display: "inline-block"}} onSubmit={_ => onTitleEdited()} onAbort={_ => setTitle(props.todo.title)}>
-                        <input type={"text"} value={title} onChange={event => setTitle(event.target.value)}/>
+                    ? <form className={"todo-list-item-title"} style={{display: "inline-block"}} onSubmit={_ => onTitleEdited()}>
+                        <input type={"text"} value={title} onChange={event => setTitle(event.target.value)} onKeyDown={event => handleKey(event.key)}/>
                     </form>
-                    : <span onDoubleClick={() => setEditingTitle(true)}>{title}</span>
+                    : <span className={"todo-list-item-title"} onDoubleClick={() => setEditingTitle(true)}>{title}</span>
             }
 
-            <button onClick={props.onDelete}>X</button>
+            <button className={"todo-list-item-delete"} onClick={props.onDelete}>X</button>
         </div>
     );
 }

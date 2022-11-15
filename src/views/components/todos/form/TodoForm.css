@@ -1,0 +1,20 @@
+.todo-form {
+    width: 80vw;
+    display: flex;
+    padding-bottom: 1rem;
+}
+
+.todo-form-label {
+    display: inline-block;
+    flex: 1;
+}
+
+.todo-form-input {
+    display: inline-block;
+    flex: 9;
+}
+
+.todo-form-submit {
+    display: inline-block;
+    flex: 1;
+}

@@ -96,13 +96,15 @@ export function TodosPage() {
     }
 
     return (
-        <div>
+        <div className={"todoapp"}>
             <header>
                 <h1>Todos</h1>
             </header>
 
-            <TodoForm onSuccess={handleNewTodo} onError={handleError}/>
-            <TodosList todos={todos} filter={filter} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
+            <div className={"main"}>
+                <TodoForm onSuccess={handleNewTodo} onError={handleError}/>
+                <TodosList todos={todos} filter={filter} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
+            </div>
 
             <footer>
                 <TodoFooter todos={todos} filter={filter} onFilterChange={setFilter} onClearCompleted={clearCompleted}/>

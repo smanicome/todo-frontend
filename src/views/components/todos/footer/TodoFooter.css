@@ -1,0 +1,5 @@
+.todo-footer {
+    width: 80vw;
+    display: flex;
+    justify-content: space-evenly;
+}

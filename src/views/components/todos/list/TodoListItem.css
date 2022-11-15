@@ -1,0 +1,20 @@
+.todo-list-item {
+    display: flex;
+    padding-bottom: 0.5rem;
+}
+
+.todo-list-item-checkbox {
+    flex: 1;
+}
+
+.todo-list-item-title {
+    flex: 9;
+}
+
+.todo-list-item-title input {
+    width: 100%;
+}
+
+.todo-list-item-delete {
+    flex: 1;
+}

@@ -29,12 +29,12 @@ export function TodoForm(props: TodoFormProps) {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Titre:
-                    <input type="text" value={title} onChange={event => setTitle(event.target.value)} />
+            <form className={"todo-form"} onSubmit={handleSubmit}>
+                <label className={"todo-form-label"}>
+                    Titre
                 </label>
-                <input type="submit" value="Envoyer" />
+                <input className={"todo-form-input"} type="text" value={title} onChange={event => setTitle(event.target.value)} />
+                <input className={"todo-form-submit"} type="submit" value="Envoyer" />
             </form>
         </div>
     );

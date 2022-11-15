@@ -1,0 +1,22 @@
+.todoapp {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+header {
+    flex: 2;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 8;
+}
+
+footer {
+    flex: 2;
+}

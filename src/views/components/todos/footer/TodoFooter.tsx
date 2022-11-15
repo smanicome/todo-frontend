@@ -23,7 +23,7 @@ export function TodoFooter(props: TodoFooterProps) {
     }
 
     return (
-        <div>
+        <div className={"todo-footer"}>
             <span>{props.todos.filter(todo => !todo.completed).length} items left</span>
             <ToggleButtonBar value={props.filter} options={options} onChanged={props.onFilterChange} optionFormatter={optionFormatter}/>
             <button onClick={props.onClearCompleted}>Clear completed</button>

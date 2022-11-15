@@ -19,7 +19,7 @@ export function TodosList(props: TodosListProps) {
     }
 
     return (
-        <div>
+        <div className={"todo-list"}>
             {
                 props.todos
                     .filter(todoMatchesFilter)
