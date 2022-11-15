@@ -4,8 +4,10 @@ import './TodosList.css';
 import {TodoFilter} from "../../../../models/TodoFilter";
 
 type TodosListProps = {
-    todos: Todo[],
-    filter: TodoFilter
+    todos: Todo[];
+    filter: TodoFilter;
+    onTodoDeleted: (todo: Todo) => void;
+    onTodoUpdated: (todo: Todo) => void;
 }
 
 export function TodosList(props: TodosListProps) {
@@ -18,7 +20,16 @@ export function TodosList(props: TodosListProps) {
 
     return (
         <div>
-            {props.todos.filter(todoMatchesFilter).map(todo => <TodoListItem {...todo} key={todo.id}/>)}
+            {
+                props.todos
+                    .filter(todoMatchesFilter)
+                    .map(todo => <TodoListItem
+                        todo={todo}
+                        onUpdate={props.onTodoUpdated}
+                        onDelete={() => props.onTodoDeleted(todo)}
+                        key={todo.id}
+                    />)
+            }
         </div>
     );
 }

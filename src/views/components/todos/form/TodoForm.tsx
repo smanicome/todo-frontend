@@ -18,14 +18,13 @@ export function TodoForm(props: TodoFormProps) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ "title": title })
+        }).then(result => {
+            if(result.status === 201) {
+                result.json().then(props.onSuccess)
+            } else {
+                props.onError(result.status);
+            }
         })
-            .then(result => {
-                if(result.status === 200) {
-                    result.json().then(props.onSuccess)
-                } else {
-                    props.onError(result.status);
-                }
-            })
     }
 
     return (

@@ -15,7 +15,14 @@ export function TodosPage() {
     }, []);
 
     const fetchTodos = () => {
-        fetch(`${process.env.REACT_APP_TODO_API_ROOT}/todos`)
+        fetch(
+            `${process.env.REACT_APP_TODO_API_ROOT}/todos`,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                }
+            }
+        )
             .then(res => res.json())
             .then(
                 result => {
@@ -33,15 +40,73 @@ export function TodosPage() {
     }
 
     const clearCompleted = () => {
-        setTodos(todos.filter(todo => !todo.completed));
+        fetch(
+            `${process.env.REACT_APP_TODO_API_ROOT}/todos?completed=true`,
+            {
+                method: "DELETE",
+            }
+        ).then(
+            result => {
+                if(result.status === 204) {
+                    setTodos(todos.filter(todo => !todo.completed));
+                } else {
+                    handleError(result.status);
+                }
+            },
+        );
+    }
+
+    const deleteTodo = (todo: Todo) => {
+        fetch(
+            `${process.env.REACT_APP_TODO_API_ROOT}/todos/${todo.id}`,
+            {
+                method: "DELETE",
+            }
+        ).then(
+            result => {
+                if(result.status === 204) {
+                    setTodos([...todos.filter(t => t.id !== todo.id)]);
+                } else {
+                    handleError(result.status);
+                }
+            },
+        );
+    }
+
+    const updateTodo = (todo: Todo) => {
+        fetch(
+            `${process.env.REACT_APP_TODO_API_ROOT}/todos/${todo.id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({...todo, order: undefined})
+            }
+        ).then(
+            result => {
+                if(result.status === 200) {
+                    setTodos([...todos.filter(t => t.id !== todo.id), todo]);
+                } else {
+                    handleError(result.status);
+                }
+            },
+        );
     }
 
     return (
         <div>
-            <h1>Todos</h1>
+            <header>
+                <h1>Todos</h1>
+            </header>
+
             <TodoForm onSuccess={handleNewTodo} onError={handleError}/>
-            <TodosList todos={todos} filter={filter}/>
-            <TodoFooter todos={todos} filter={filter} onFilterChange={setFilter} onClearCompleted={clearCompleted}/>
+            <TodosList todos={todos} filter={filter} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
+
+            <footer>
+                <TodoFooter todos={todos} filter={filter} onFilterChange={setFilter} onClearCompleted={clearCompleted}/>
+            </footer>
         </div>
     );
 }
