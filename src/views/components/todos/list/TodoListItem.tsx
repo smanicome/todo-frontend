@@ -41,7 +41,6 @@ export function TodoListItem(props: TodoListItemProps) {
                     </form>
                     : <span className={"todo-list-item-title"} onDoubleClick={() => setEditingTitle(true)}>{title}</span>
             }
-
             <button className={"todo-list-item-delete"} onClick={props.onDelete}>X</button>
         </div>
     );

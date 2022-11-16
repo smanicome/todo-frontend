@@ -1,20 +1,29 @@
 .todo-list-item {
     display: flex;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1rem;
+    height: 2rem;
 }
 
 .todo-list-item-checkbox {
+    height: inherit;
     flex: 1;
 }
 
 .todo-list-item-title {
-    flex: 9;
+    height: inherit;
+    display: inline-flex;
+    align-items: center;
+    padding-left: 1rem;
+    flex: 8;
 }
 
 .todo-list-item-title input {
-    width: 100%;
+    height: inherit;
+    width: 95%;
+    padding: 0;
 }
 
 .todo-list-item-delete {
+    height: inherit;
     flex: 1;
 }

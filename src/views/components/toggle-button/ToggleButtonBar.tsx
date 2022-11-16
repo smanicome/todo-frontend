@@ -10,7 +10,7 @@ type ToggleButtonBarProps<T> = {
 
 export function ToggleButtonBar<T>(props: ToggleButtonBarProps<T>) {
     return (
-        <span>
+        <div className={"toggle-button-bar"}>
             {
                 props.options.map(option => {
                     return (
@@ -23,6 +23,6 @@ export function ToggleButtonBar<T>(props: ToggleButtonBarProps<T>) {
                     )
                 })
             }
-        </span>
+        </div>
     )
 }

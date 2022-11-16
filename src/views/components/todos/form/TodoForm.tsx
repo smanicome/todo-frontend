@@ -27,15 +27,26 @@ export function TodoForm(props: TodoFormProps) {
         })
     }
 
+    const handleKey = (key: string) => {
+        switch (key) {
+            case "Enter":
+                handleSubmit();
+                setTitle("");
+                break;
+            case "Escape":
+                setTitle("");
+        }
+        if(key === "Enter") {
+            handleSubmit();
+        }
+    }
+
     return (
-        <div>
-            <form className={"todo-form"} onSubmit={handleSubmit}>
-                <label className={"todo-form-label"}>
-                    Titre
-                </label>
-                <input className={"todo-form-input"} type="text" value={title} onChange={event => setTitle(event.target.value)} />
-                <input className={"todo-form-submit"} type="submit" value="Envoyer" />
-            </form>
+        <div className={"todo-form"}>
+            <label className={"todo-form-label"}>
+                Titre
+            </label>
+            <input className={"todo-form-input"} type="text" value={title} onChange={event => setTitle(event.target.value)} onKeyDown={event => handleKey(event.key)}/>
         </div>
     );
 }

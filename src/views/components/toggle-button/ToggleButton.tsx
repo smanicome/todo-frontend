@@ -9,7 +9,7 @@ type ToggleButtonProps = {
 export function ToggleButton(props: ToggleButtonProps) {
     return (
         <button
-            className={props.selected ? "selected-filter-button" : "filter-button"}
+            className={props.selected ? "selected-toggle-button" : "toggle-button"}
             onClick={props.onClicked}
         >
             {props.text}

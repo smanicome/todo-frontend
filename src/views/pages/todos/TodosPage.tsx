@@ -10,9 +10,9 @@ export function TodosPage() {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [filter, setFilter] = useState<TodoFilter>("all");
 
-    useEffect(() => {
-        fetchTodos();
-    }, []);
+    const compareTodoByOrder = (a: Todo, b: Todo): number => {
+        return a.order - b.order;
+    }
 
     const fetchTodos = () => {
         fetch(
@@ -26,17 +26,15 @@ export function TodosPage() {
             .then(res => res.json())
             .then(
                 result => {
-                    setTodos(result);
+                    setTodos(result.sort(compareTodoByOrder));
                 },
             );
     }
 
+    useEffect(fetchTodos, []);
+
     const handleNewTodo = (todo: Todo) => {
-        setTodos([...todos, todo]);
-    }
-
-    const handleError = (httpStatus: number) => {
-
+        setTodos([...todos, todo].sort(compareTodoByOrder));
     }
 
     const clearCompleted = () => {
@@ -65,7 +63,7 @@ export function TodosPage() {
         ).then(
             result => {
                 if(result.status === 204) {
-                    setTodos([...todos.filter(t => t.id !== todo.id)]);
+                    setTodos([...todos.filter(t => t.id !== todo.id)].sort(compareTodoByOrder));
                 } else {
                     handleError(result.status);
                 }
@@ -87,12 +85,16 @@ export function TodosPage() {
         ).then(
             result => {
                 if(result.status === 200) {
-                    setTodos([...todos.filter(t => t.id !== todo.id), todo]);
+                    setTodos([...todos.filter(t => t.id !== todo.id), todo].sort(compareTodoByOrder));
                 } else {
                     handleError(result.status);
                 }
             },
         );
+    }
+
+    const handleError = (httpStatus: number) => {
+
     }
 
     return (

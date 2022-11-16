@@ -1,20 +1,22 @@
 .todo-form {
     width: 80vw;
     display: flex;
-    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    height: 3rem;
 }
 
 .todo-form-label {
     display: inline-block;
+    font-size: 150%;
+    margin: auto;
     flex: 1;
 }
 
 .todo-form-input {
     display: inline-block;
+    font-size: 150%;
+    padding-left: 1rem;
     flex: 9;
-}
-
-.todo-form-submit {
-    display: inline-block;
-    flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }

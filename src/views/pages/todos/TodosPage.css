@@ -7,7 +7,9 @@
 }
 
 header {
-    flex: 2;
+    flex: 1;
+    margin: 1rem;
+    font-size: 150%;
 }
 
 .main {
@@ -18,5 +20,5 @@ header {
 }
 
 footer {
-    flex: 2;
+    flex: 1;
 }
