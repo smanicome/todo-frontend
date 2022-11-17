@@ -1,7 +1,6 @@
-import './TodoFooter.css';
 import {Todo} from "../../../../models/Todo";
 import {TodoFilter} from "../../../../models/TodoFilter";
-import {ToggleButtonBar} from "../../toggle-button/ToggleButtonBar";
+import {TodoFilters} from "../filters/TodoFilters";
 
 type TodoFooterProps = {
     todos: Todo[];
@@ -11,22 +10,11 @@ type TodoFooterProps = {
 }
 
 export function TodoFooter(props: TodoFooterProps) {
-    const options: TodoFilter[] = ["all", "active", "completed"];
-
-    const optionFormatter = (option: TodoFilter): string => {
-        switch (option) {
-            case "completed": return "Completed";
-            case "active": return "Active";
-            case "all": return "All";
-            default: return "N/A";
-        }
-    }
-
     return (
         <div className={"todo-footer"}>
-            <span>{props.todos.filter(todo => !todo.completed).length} items left</span>
-            <ToggleButtonBar value={props.filter} options={options} onChanged={props.onFilterChange} optionFormatter={optionFormatter}/>
-            <button onClick={props.onClearCompleted}>Clear completed</button>
+            <span className={"todo-count"}>{props.todos.filter(todo => !todo.completed).length} items left</span>
+            <TodoFilters value={props.filter} onChanged={props.onFilterChange}/>
+            <button className={"clear-completed"} onClick={props.onClearCompleted}>Clear completed</button>
         </div>
     );
 }

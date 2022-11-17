@@ -1,6 +1,5 @@
 import {Todo} from "../../../../models/Todo";
 import {TodoListItem} from "./TodoListItem";
-import './TodosList.css';
 import {TodoFilter} from "../../../../models/TodoFilter";
 
 type TodosListProps = {
@@ -19,7 +18,7 @@ export function TodosList(props: TodosListProps) {
     }
 
     return (
-        <div className={"todo-list"}>
+        <ul className={"todo-list"}>
 
             {
                 props.todos
@@ -31,6 +30,6 @@ export function TodosList(props: TodosListProps) {
                         key={todo.id}
                     />)
             }
-        </div>
+        </ul>
     );
 }

@@ -1,5 +1,4 @@
 import {Todo} from "../../../../models/Todo";
-import './TodoListItem.css';
 import {useState} from "react";
 
 type TodoListItemProps = {
@@ -25,23 +24,41 @@ export function TodoListItem(props: TodoListItemProps) {
     }
 
     const handleKey = (key: string) => {
-        if(key === "Escape") {
-            setTitle(props.todo.title);
-            setEditingTitle(false);
+        switch (key) {
+            case "Enter":
+                if(title === "") {
+                    props.onDelete();
+                } else {
+                    onTitleEdited();
+                }
+                setEditingTitle(false);
+                break;
+            case "Escape":
+                setTitle(props.todo.title);
+                setEditingTitle(false);
+                break
         }
     }
 
+    const className = (props.todo.completed && "completed") || (editingTitle && "editing") || "";
+
     return (
-        <div className={"todo-list-item"}>
-            <input className={"todo-list-item-checkbox"} type={"checkbox"} checked={props.todo.completed} onChange={onCompletionEdited}/>
+        <li className={className}>
             {
                 editingTitle
-                    ? <form className={"todo-list-item-title"} style={{display: "inline-block"}} onSubmit={_ => onTitleEdited()}>
-                        <input type={"text"} value={title} onChange={event => setTitle(event.target.value)} onKeyDown={event => handleKey(event.key)}/>
-                    </form>
-                    : <span className={"todo-list-item-title"} onDoubleClick={() => setEditingTitle(true)}>{title}</span>
+                    ? (
+                        <div className={"view"}>
+                            <input className={"edit"} value={title} onChange={event => setTitle(event.target.value)} onKeyDown={event => handleKey(event.key)}/>
+                        </div>
+                    )
+                    : (
+                        <div className={"view"}>
+                            <input className={"toggle"} type="checkbox" onChange={_ => onCompletionEdited()} checked={props.todo.completed}/>
+                            <label onDoubleClick={() => setEditingTitle(true)}>{title}</label>
+                            <button className={"destroy"} onClick={props.onDelete}></button>
+                        </div>
+                    )
             }
-            <button className={"todo-list-item-delete"} onClick={props.onDelete}>X</button>
-        </div>
+        </li>
     );
 }

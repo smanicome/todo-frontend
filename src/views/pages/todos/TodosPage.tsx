@@ -1,14 +1,15 @@
 import {useEffect, useState} from "react";
 import {TodosList} from "../../components/todos/list/TodosList";
-import {Todo} from "../../../models/Todo";
-import './TodosPage.css'
-import {TodoForm} from "../../components/todos/form/TodoForm";
+import {TodoCreate} from "../../components/todos/form/TodoCreate";
 import {TodoFilter} from "../../../models/TodoFilter";
 import {TodoFooter} from "../../components/todos/footer/TodoFooter";
+import {useTodos} from "../../../hooks/useTodos";
+import {Todo} from "../../../models/Todo";
 
 export function TodosPage() {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [filter, setFilter] = useState<TodoFilter>("all");
+    const [selectAll, setSelectAll] = useState(false);
 
     const compareTodoByOrder = (a: Todo, b: Todo): number => {
         return a.order - b.order;
@@ -33,10 +34,6 @@ export function TodosPage() {
 
     useEffect(fetchTodos, []);
 
-    const handleNewTodo = (todo: Todo) => {
-        setTodos([...todos, todo].sort(compareTodoByOrder));
-    }
-
     const clearCompleted = () => {
         fetch(
             `${process.env.REACT_APP_TODO_API_ROOT}/todos?completed=true`,
@@ -47,8 +44,6 @@ export function TodosPage() {
             result => {
                 if(result.status === 204) {
                     setTodos(todos.filter(todo => !todo.completed));
-                } else {
-                    handleError(result.status);
                 }
             },
         );
@@ -64,8 +59,26 @@ export function TodosPage() {
             result => {
                 if(result.status === 204) {
                     setTodos([...todos.filter(t => t.id !== todo.id)].sort(compareTodoByOrder));
-                } else {
-                    handleError(result.status);
+                }
+            },
+        );
+    }
+
+    const createTodo = (title: string) => {
+        fetch(
+            `${process.env.REACT_APP_TODO_API_ROOT}/todos`,
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({title: title})
+            }
+        ).then(
+            result => {
+                if(result.status === 200) {
+                    result.json().then(todo => setTodos([...todos, todo]));
                 }
             },
         );
@@ -86,31 +99,32 @@ export function TodosPage() {
             result => {
                 if(result.status === 200) {
                     setTodos([...todos.filter(t => t.id !== todo.id), todo].sort(compareTodoByOrder));
-                } else {
-                    handleError(result.status);
                 }
             },
         );
     }
 
-    const handleError = (httpStatus: number) => {
-
+    const handleSelectAll = () => {
+        setSelectAll(!selectAll);
+        todos.map(todo => { return {...todo, completed: selectAll} }).map(updateTodo);
     }
 
     return (
-        <div className={"todoapp"}>
-            <header>
+        <section className={"todoapp"}>
+            <header className={"header"}>
                 <h1>Todos</h1>
+                <TodoCreate onCreate={createTodo}/>
             </header>
 
-            <div className={"main"}>
-                <TodoForm onSuccess={handleNewTodo} onError={handleError}/>
+            <section className={"main"}>
+                <input id="toggle-all" className="toggle-all" type="checkbox" onClick={handleSelectAll}/>
+                <label htmlFor="toggle-all">Mark all as complete</label>
                 <TodosList todos={todos} filter={filter} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
-            </div>
+            </section>
 
-            <footer>
+            <footer className={"footer"}>
                 <TodoFooter todos={todos} filter={filter} onFilterChange={setFilter} onClearCompleted={clearCompleted}/>
             </footer>
-        </div>
+        </section>
     );
 }
