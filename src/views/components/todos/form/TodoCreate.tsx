@@ -7,11 +7,18 @@ type TodoFormProps = {
 export function TodoCreate(props: TodoFormProps) {
     const [title, setTitle] = useState<string>("");
 
+    const submitTitle = () => {
+        const trimmedTitle = title.trim();
+        if(trimmedTitle !== "") {
+            props.onCreate(title);
+            setTitle("");
+        }
+    }
+
     const handleKey = (key: string) => {
         switch (key) {
             case "Enter":
-                props.onCreate(title);
-                setTitle("");
+                submitTitle();
                 break;
             case "Escape":
                 setTitle("");
@@ -26,6 +33,7 @@ export function TodoCreate(props: TodoFormProps) {
             placeholder={"What needs to be done ?"}
             onChange={event => setTitle(event.target.value)}
             onKeyDown={event => handleKey(event.key)}
+            onBlur={submitTitle}
         />
     );
 }

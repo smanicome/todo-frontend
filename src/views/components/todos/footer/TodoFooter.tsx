@@ -10,11 +10,19 @@ type TodoFooterProps = {
 }
 
 export function TodoFooter(props: TodoFooterProps) {
+    const itemsQty = props.todos.filter(todo => !todo.completed).length;
     return (
         <div className={"todo-footer"}>
-            <span className={"todo-count"}>{props.todos.filter(todo => !todo.completed).length} items left</span>
+            <span className={"todo-count"}>{itemsQty} item{itemsQty > 1 ? "s" : ""} left</span>
             <TodoFilters value={props.filter} onChanged={props.onFilterChange}/>
-            <button className={"clear-completed"} onClick={props.onClearCompleted}>Clear completed</button>
+            {
+                (props.todos.length > 0) &&
+                    <button
+                        className={"clear-completed"}
+                        onClick={props.onClearCompleted}>
+                        Clear completed
+                    </button>
+            }
         </div>
     );
 }

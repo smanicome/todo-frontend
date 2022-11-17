@@ -22,15 +22,21 @@ export function TodosPage() {
                 <TodoCreate onCreate={createTodo}/>
             </header>
 
-            <section className={"main"}>
-                <input id="toggle-all" className="toggle-all" type="checkbox" onClick={handleSelectAll}/>
-                <label htmlFor="toggle-all">Mark all as complete</label>
-                <TodosList todos={todos} filter={filter} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
-            </section>
+            {
+                (todos.length > 0) &&
+                <section className={"main"}>
+                    <input id="toggle-all" className="toggle-all" type="checkbox" onClick={handleSelectAll}/>
+                    <label htmlFor="toggle-all">Mark all as complete</label>
+                    <TodosList todos={todos} filter={filter} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
+                </section>
+            }
 
-            <footer className={"footer"}>
-                <TodoFooter todos={todos} filter={filter} onFilterChange={setFilter} onClearCompleted={clearCompletedTodos}/>
-            </footer>
+            {
+                (todos.length > 0) &&
+                <footer className={"footer"}>
+                    <TodoFooter todos={todos} filter={filter} onFilterChange={setFilter} onClearCompleted={clearCompletedTodos}/>
+                </footer>
+            }
         </section>
     );
 }
