@@ -48,7 +48,7 @@ export function TodoListItem(props: TodoListItemProps) {
                 editingTitle
                     ? (
                         <div className={"view"}>
-                            <input className={"edit"} value={title} onChange={event => setTitle(event.target.value)} onKeyDown={event => handleKey(event.key)}/>
+                            <input className={"edit"} value={title} onBlur={_ => onTitleEdited()} onChange={event => setTitle(event.target.value)} onKeyDown={event => handleKey(event.key)}/>
                         </div>
                     )
                     : (
