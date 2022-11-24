@@ -4,6 +4,7 @@ import {TodoCreate} from "../../components/todos/form/TodoCreate";
 import {TodoFilter} from "../../../models/TodoFilter";
 import {TodoFooter} from "../../components/todos/footer/TodoFooter";
 import {useTodos} from "../../../hooks/useTodos";
+import {Todo} from "../../../models/Todo";
 
 export function TodosPage() {
     const [filter, setFilter] = useState<TodoFilter>("all");
@@ -19,6 +20,12 @@ export function TodosPage() {
         }
     }
 
+    const todoMatchesFilter = (todo: Todo) => {
+        return (filter === "all")
+            || (filter === "active" && !todo.completed)
+            || (filter === "completed" && todo.completed)
+    }
+
     return (
         <section className={"todoapp"}>
             <header className={"header"}>
@@ -31,7 +38,7 @@ export function TodosPage() {
                 <section className={"main"}>
                     <input id="toggle-all" className="toggle-all" type="checkbox" onClick={handleSelectAll}/>
                     <label htmlFor="toggle-all">Mark all as complete</label>
-                    <TodosList todos={todos} filter={filter} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
+                    <TodosList todos={todos.filter(todoMatchesFilter)} onTodoDeleted={deleteTodo} onTodoUpdated={updateTodo}/>
                 </section>
             }
 
