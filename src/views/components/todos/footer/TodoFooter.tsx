@@ -12,7 +12,7 @@ type TodoFooterProps = {
 export function TodoFooter(props: TodoFooterProps) {
     const itemsQty = props.todos.filter(todo => !todo.completed).length;
     return (
-        <div className={"todo-footer"}>
+        <div className={"todo-footer"} role={"contentinfo"}>
             <span className={"todo-count"}>{itemsQty} item{itemsQty > 1 ? "s" : ""} left</span>
             <TodoFilters value={props.filter} onChanged={props.onFilterChange}/>
             {

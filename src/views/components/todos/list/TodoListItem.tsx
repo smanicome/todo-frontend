@@ -12,14 +12,13 @@ export function TodoListItem(props: TodoListItemProps) {
     const [editingTitle, setEditingTitle] = useState(false);
 
     const onTitleEdited = () => {
-        const updatedTodo = {...props.todo};
-        updatedTodo.title = title;
+        const updatedTodo = {...props.todo, title: title};
         props.onUpdate(updatedTodo);
     }
 
     const onCompletionEdited = () => {
-        const updatedTodo = {...props.todo};
-        updatedTodo.completed = !props.todo.completed;
+        const updatedTodo = {...props.todo, completed: !props.todo.completed};
+
         props.onUpdate(updatedTodo);
     }
 

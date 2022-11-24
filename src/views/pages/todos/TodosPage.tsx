@@ -10,9 +10,13 @@ export function TodosPage() {
     const [selectAll, setSelectAll] = useState(false);
     const {todos, createTodo, updateTodo, deleteTodo, clearCompletedTodos} = useTodos();
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        todos.map(todo => { return {...todo, completed: selectAll} }).map(updateTodo);
+    const handleSelectAll = async () => {
+        const selected = !selectAll;
+        setSelectAll(selected);
+        const updatedTodos = todos.map(todo => { return {...todo, completed: selected} });
+        for(const todo of updatedTodos) {
+            await updateTodo(todo);
+        }
     }
 
     return (
