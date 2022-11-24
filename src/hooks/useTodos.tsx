@@ -26,8 +26,8 @@ export function useTodos() {
         });
     }, []);
 
-    const updateTodo = (todo: Todo) => {
-        fetch(
+    const updateTodo = async (todo: Todo) => {
+        const result = await fetch(
             `${process.env.REACT_APP_TODO_API_ROOT}/todos/${todo.id}`,
             {
                 method: "PATCH",
@@ -37,13 +37,12 @@ export function useTodos() {
                 },
                 body: JSON.stringify({...todo, order: undefined})
             }
-        ).then(
-            result => {
-                if(result.status === 200) {
-                    setTodos([...todos.filter(t => t.id !== todo.id), todo].sort(compareTodoByOrder));
-                }
-            },
-        );
+        )
+
+        if(result.status === 200) {
+            const t = await result.json();
+            setTodos([...todos.filter(t => t.id !== todo.id), t].sort(compareTodoByOrder));
+        }
     }
 
     const createTodo = async (title: string) => {
@@ -62,8 +61,8 @@ export function useTodos() {
         }
     }
 
-    const deleteTodo = (todo: Todo) => {
-        fetch(
+    const deleteTodo = async (todo: Todo) => {
+        await fetch(
             `${process.env.REACT_APP_TODO_API_ROOT}/todos/${todo.id}`,
             {
                 method: "DELETE",
@@ -71,14 +70,14 @@ export function useTodos() {
         ).then(
             result => {
                 if(result.status === 204) {
-                    setTodos([...todos.filter(t => t.id !== todo.id)].sort(compareTodoByOrder));
+                    setTodos(todos.filter(t => t.id !== todo.id).sort(compareTodoByOrder));
                 }
             },
         );
     }
 
-    const clearCompletedTodos = () => {
-        fetch(
+    const clearCompletedTodos = async () => {
+        await fetch(
             `${process.env.REACT_APP_TODO_API_ROOT}/todos?completed=true`,
             {
                 method: "DELETE",

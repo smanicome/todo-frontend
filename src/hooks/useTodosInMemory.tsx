@@ -1,7 +1,7 @@
 import {Todo} from "../models/Todo";
 import {useEffect, useState} from "react";
 
-export function useTodos() {
+export function useTodosInMemory() {
     const [todos, setTodos] = useState<Todo[]>([
         {id: "todo1", order: 0, completed: false, title: "Todo 1"},
         {id: "todo2", order: 1, completed: false, title: "Todo 2"},
@@ -16,8 +16,8 @@ export function useTodos() {
         }
     }
 
-    const createTodo = async (title: string) => {
-        const todo = {id: "todo1", order: Date.now(), completed: false, title: title};
+    const createTodo = (title: string) => {
+        const todo = {id: "new-todo", order: 4, completed: false, title: title};
         setTodos([...todos, todo]);
     }
 
